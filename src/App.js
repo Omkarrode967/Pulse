@@ -15,16 +15,18 @@ import Teams from './components/Teams';
 import Tasks from './components/Tasks';
 import Login from './components/Login';
 import Navbar from './components/Navbar';
+import Profile from './components/Profile';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import Dashboard from './components/Dashboard';
 
 // Protected Route component
 function ProtectedRoute({ children }) {
-  const navigate = useNavigate();
-  const isAuthenticated = localStorage.getItem('currentUser') !== null;
-
-  if (!isAuthenticated) {
+  const { user } = useAuth();
+  
+  if (!user) {
     return <Navigate to="/login" />;
   }
-
+  
   return children;
 }
 
@@ -48,72 +50,84 @@ function LandingPage() {
 
 function App() {
   return (
-    <ThemeProvider>
-      <Router>
-        <div className="app">
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/home" element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
-            } />
-            <Route path="/projects" element={
-              <ProtectedRoute>
-                <Projects />
-              </ProtectedRoute>
-            } />
-            <Route path="/projects/:id" element={
-              <ProtectedRoute>
-                <ProjectDetails />
-              </ProtectedRoute>
-            } />
-            <Route path="/projects/:projectId/teams/:teamId" element={
-              <ProtectedRoute>
-                <TeamDetails />
-              </ProtectedRoute>
-            } />
-            <Route path="/create-team" element={
-              <ProtectedRoute>
-                <Team />
-              </ProtectedRoute>
-            } />
-            <Route path="/team/:teamId" element={
-              <ProtectedRoute>
-                <ViewTeam />
-              </ProtectedRoute>
-            } />
-            <Route path="/team/:teamId/members" element={
-              <ProtectedRoute>
-                <TeamMembers />
-              </ProtectedRoute>
-            } />
-            <Route path="/email-notifications" element={
-              <ProtectedRoute>
-                <EmailNotifications />
-              </ProtectedRoute>
-            } />
-            <Route path="/email-setup" element={
-              <ProtectedRoute>
-                <EmailSetup />
-              </ProtectedRoute>
-            } />
-            <Route path="/teams" element={
-              <ProtectedRoute>
-                <Teams />
-              </ProtectedRoute>
-            } />
-            <Route path="/tasks" element={
-              <ProtectedRoute>
-                <Tasks />
-              </ProtectedRoute>
-            } />
-          </Routes>
-        </div>
-      </Router>
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider>
+        <Router>
+          <div className="app">
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/home" element={
+                <ProtectedRoute>
+                  <Home />
+                </ProtectedRoute>
+              } />
+              <Route path="/projects" element={
+                <ProtectedRoute>
+                  <Projects />
+                </ProtectedRoute>
+              } />
+              <Route path="/projects/:id" element={
+                <ProtectedRoute>
+                  <ProjectDetails />
+                </ProtectedRoute>
+              } />
+              <Route path="/projects/:projectId/teams/:teamId" element={
+                <ProtectedRoute>
+                  <TeamDetails />
+                </ProtectedRoute>
+              } />
+              <Route path="/create-team" element={
+                <ProtectedRoute>
+                  <Team />
+                </ProtectedRoute>
+              } />
+              <Route path="/team/:teamId" element={
+                <ProtectedRoute>
+                  <ViewTeam />
+                </ProtectedRoute>
+              } />
+              <Route path="/team/:teamId/members" element={
+                <ProtectedRoute>
+                  <TeamMembers />
+                </ProtectedRoute>
+              } />
+              <Route path="/email-notifications" element={
+                <ProtectedRoute>
+                  <EmailNotifications />
+                </ProtectedRoute>
+              } />
+              <Route path="/email-setup" element={
+                <ProtectedRoute>
+                  <EmailSetup />
+                </ProtectedRoute>
+              } />
+              <Route path="/teams" element={
+                <ProtectedRoute>
+                  <Teams />
+                </ProtectedRoute>
+              } />
+              <Route path="/tasks" element={
+                <ProtectedRoute>
+                  <Tasks />
+                </ProtectedRoute>
+              } />
+              <Route path="/dashboard" element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              } />
+              <Route path="/profile" element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              } />
+            </Routes>
+          </div>
+        </Router>
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
 

@@ -31,6 +31,19 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.app-icon:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  transform: translateY(-1px);
+}
+
+.dark .app-icon:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .team-logo {
@@ -94,13 +107,15 @@
 }
 
 .avatar-container {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem;
   border-radius: 0.5rem;
   cursor: pointer;
-  position: relative;
+  user-select: none;
+  transition: background-color 0.2s ease;
 }
 
 .avatar-container:hover {
@@ -153,6 +168,7 @@
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   min-width: 200px;
   z-index: 50;
+  overflow: hidden;
 }
 
 .dark .user-menu {
@@ -167,6 +183,7 @@
   padding: 0.75rem 1rem;
   cursor: pointer;
   color: #1f2937;
+  transition: background-color 0.2s ease;
 }
 
 .dark .menu-item {
