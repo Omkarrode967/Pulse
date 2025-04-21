@@ -1,11 +1,13 @@
 {
   "version": 2,
+  "buildCommand": "npm install react-app-rewired && npm run build",
   "builds": [
     {
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "build"
+        "distDir": "build",
+        "installCommand": "npm install"
       }
     }
   ],
