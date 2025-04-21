@@ -1,0 +1,5 @@
+com\teamf\pulse\model\Project.class
+com\teamf\pulse\PulseApplication.class
+com\teamf\pulse\controller\ProjectController.class
+com\teamf\pulse\model\ProjectStatus.class
+com\teamf\pulse\repository\ProjectRepository.class

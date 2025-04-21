@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useWebSocket } from '../services/websocket';
 import './Tasks.css';
 import Navbar from './Navbar';
@@ -15,11 +15,7 @@ function Tasks() {
   const [filteredTasks, setFilteredTasks] = useState([]);
   const [filter, setFilter] = useState('all'); // all, pending, completed
 
-  useEffect(() => {
-    filterTasks(filter);
-  }, [tasks, filter, filterTasks]);
-
-  const filterTasks = (filterType) => {
+  const filterTasks = useCallback((filterType) => {
     switch (filterType) {
       case 'pending':
         setFilteredTasks(tasks.filter(task => !task.completed));
@@ -30,7 +26,11 @@ function Tasks() {
       default:
         setFilteredTasks(tasks);
     }
-  };
+  }, [tasks]);
+
+  useEffect(() => {
+    filterTasks(filter);
+  }, [tasks, filter, filterTasks]);
 
   const handleSidebarToggle = (collapsed) => {
     setIsSidebarCollapsed(collapsed);

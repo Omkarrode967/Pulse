@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './ProjectDetails.css';
 import Navbar from './Navbar';
@@ -16,12 +16,7 @@ function ProjectDetails() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    fetchProjectDetails();
-    fetchTeams();
-  }, [fetchProjectDetails, fetchTeams]);
-
-  const fetchProjectDetails = async () => {
+  const fetchProjectDetails = useCallback(async () => {
     try {
       const response = await projectService.getProjectById(id);
       setProject(response);
@@ -31,9 +26,9 @@ function ProjectDetails() {
       setError('Failed to load project details. Please try again later.');
       setIsLoading(false);
     }
-  };
+  }, [id]);
 
-  const fetchTeams = async () => {
+  const fetchTeams = useCallback(async () => {
     try {
       // Get teams from localStorage for this project
       const storedTeams = localStorage.getItem(`project_${id}_teams`);
@@ -46,7 +41,12 @@ function ProjectDetails() {
       console.error('Error fetching teams:', err);
       setTeams([]);
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    fetchProjectDetails();
+    fetchTeams();
+  }, [fetchProjectDetails, fetchTeams]);
 
   const handleSidebarToggle = (collapsed) => {
     setIsSidebarCollapsed(collapsed);
