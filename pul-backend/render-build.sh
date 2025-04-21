@@ -2,5 +2,8 @@
 # exit on error
 set -o errexit
 
-# Build the Docker image
-docker build -t pulse-backend . 
+# make mvnw executable
+chmod +x mvnw
+
+# build the application
+./mvnw clean package -DskipTests 
