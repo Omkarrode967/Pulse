@@ -1,21 +1,22 @@
-FROM eclipse-temurin:17-jdk-focal
+# Use Java 17 as the base image
+FROM openjdk:17-slim
 
+# Set working directory
 WORKDIR /app
 
 # Copy the Maven wrapper and pom.xml
-COPY .mvn .mvn
 COPY mvnw .
+COPY .mvn .mvn
 COPY pom.xml .
-COPY src src
 
-# Make the Maven wrapper executable
+# Make Maven wrapper executable
 RUN chmod +x mvnw
+
+# Copy source code
+COPY src src
 
 # Build the application
 RUN ./mvnw clean package -DskipTests
 
-# Copy the built JAR file
-COPY target/*.jar app.jar
-
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"] 
+# Run the application
+CMD ["java", "-jar", "target/pulse-0.0.1-SNAPSHOT.jar"] 
