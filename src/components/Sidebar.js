@@ -9,12 +9,9 @@ function Sidebar({ onToggle }) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const toggleSidebar = () => {
-    const newState = !isCollapsed;
-    setIsCollapsed(newState);
-    if (onToggle) {
-      onToggle(newState);
-    }
+  const handleToggle = () => {
+    setIsCollapsed(!isCollapsed);
+    onToggle(isCollapsed);
   };
 
   const isActive = (path) => {
@@ -25,16 +22,9 @@ function Sidebar({ onToggle }) {
     navigate(path);
   };
 
-  const menuItems = [
-    { path: '/home', icon: '🏠', label: 'Home' },
-    { path: '/projects', icon: '📋', label: 'Projects' },
-    { path: '/email-notifications', icon: '📧', label: 'Email Notifications' },
-    { path: '/settings', icon: '⚙️', label: 'Settings' }
-  ];
-
   return (
     <div className={`sidebar ${isCollapsed ? 'collapsed' : ''} ${isDarkMode ? 'dark' : ''}`}>
-      <button className="toggle-button" onClick={toggleSidebar}>
+      <button className="toggle-button" onClick={handleToggle}>
         {isCollapsed ? '→' : '←'}
       </button>
       <div className="sidebar-menu">

@@ -19,13 +19,7 @@ function ProjectDetails() {
   useEffect(() => {
     fetchProjectDetails();
     fetchTeams();
-
-    // Set up interval to refresh teams every 2 seconds
-    const intervalId = setInterval(fetchTeams, 2000);
-
-    // Cleanup interval on component unmount
-    return () => clearInterval(intervalId);
-  }, [id]);
+  }, [fetchProjectDetails, fetchTeams]);
 
   const fetchProjectDetails = async () => {
     try {
@@ -60,10 +54,6 @@ function ProjectDetails() {
 
   const handleCreateTeam = () => {
     navigate('/create-team', { state: { projectId: id } });
-  };
-
-  const handleViewTeam = (teamId) => {
-    navigate(`/team/${teamId}`);
   };
 
   const handleDeleteTeam = (teamId) => {

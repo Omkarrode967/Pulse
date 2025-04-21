@@ -17,7 +17,7 @@ function Tasks() {
 
   useEffect(() => {
     filterTasks(filter);
-  }, [tasks, filter]);
+  }, [tasks, filter, filterTasks]);
 
   const filterTasks = (filterType) => {
     switch (filterType) {
@@ -36,10 +36,6 @@ function Tasks() {
     setIsSidebarCollapsed(collapsed);
   };
 
-  const handleTaskClick = (taskId, projectId) => {
-    navigate(`/projects/${projectId}/tasks/${taskId}`);
-  };
-
   const getStatusColor = (deadline) => {
     const now = new Date();
     const deadlineDate = new Date(deadline);
@@ -48,28 +44,6 @@ function Tasks() {
     if (daysLeft < 0) return 'red';
     if (daysLeft <= 3) return 'orange';
     return 'green';
-  };
-
-  const formatDate = (dateString) => {
-    if (!dateString) return '';
-    return new Date(dateString).toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
-    });
-  };
-
-  const getDueStatus = (dueDate) => {
-    if (!dueDate) return null;
-    
-    const today = new Date();
-    const due = new Date(dueDate);
-    const diffDays = Math.ceil((due - today) / (1000 * 60 * 60 * 24));
-    
-    if (diffDays < 0) return { text: 'Overdue', color: '#ef4444' };
-    if (diffDays === 0) return { text: 'Due Today', color: '#f59e0b' };
-    if (diffDays <= 3) return { text: `Due in ${diffDays} days`, color: '#f59e0b' };
-    return null;
   };
 
   if (!user) {
