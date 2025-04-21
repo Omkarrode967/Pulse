@@ -4,65 +4,110 @@ import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 
 function Dashboard() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogout = async () => {
-    try {
-      await logout();
-      navigate('/login');
-    } catch (error) {
-      console.error('Failed to log out:', error);
-    }
+  const getTimeOfDay = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Good morning';
+    if (hour < 17) return 'Good afternoon';
+    return 'Good evening';
   };
 
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
-        <h1>Welcome to your Dashboard</h1>
-        <div className="user-info">
-          {user?.photoURL && (
-            <img 
-              src={user.photoURL} 
-              alt="Profile" 
-              className="profile-image"
-            />
-          )}
-          <span className="user-name">{user?.displayName || 'User'}</span>
-          <button onClick={handleLogout} className="logout-button">
-            Logout
-          </button>
+        <div className="welcome-section">
+          <h1>{getTimeOfDay()}, {user?.displayName?.split(' ')[0] || 'User'}</h1>
+          <p className="subtitle">Welcome to your project management dashboard</p>
         </div>
       </div>
 
-      <div className="dashboard-content">
-        <div className="quick-actions">
+      <div className="dashboard-grid">
+        <div className="quick-actions-section">
           <h2>Quick Actions</h2>
-          <div className="action-buttons">
-            <button onClick={() => navigate('/projects')} className="action-button">
-              View Projects
-            </button>
-            <button onClick={() => navigate('/tasks')} className="action-button">
-              View Tasks
-            </button>
-            <button onClick={() => navigate('/teams')} className="action-button">
-              View Teams
-            </button>
+          <div className="action-cards">
+            <div className="action-card" onClick={() => navigate('/projects')}>
+              <div className="card-icon projects">
+                <span>📋</span>
+              </div>
+              <h3>View Projects</h3>
+              <p>Manage and track your active projects</p>
+            </div>
+
+            <div className="action-card" onClick={() => navigate('/tasks')}>
+              <div className="card-icon tasks">
+                <span>✅</span>
+              </div>
+              <h3>View Tasks</h3>
+              <p>Check your pending and completed tasks</p>
+            </div>
+
+            <div className="action-card" onClick={() => navigate('/teams')}>
+              <div className="card-icon teams">
+                <span>👥</span>
+              </div>
+              <h3>View Teams</h3>
+              <p>Collaborate with your team members</p>
+            </div>
           </div>
         </div>
 
-        <div className="dashboard-stats">
-          <div className="stat-card">
-            <h3>Active Projects</h3>
-            <p className="stat-number">5</p>
+        <div className="stats-section">
+          <div className="stats-grid">
+            <div className="stat-card active-projects">
+              <div className="stat-icon">📊</div>
+              <div className="stat-info">
+                <h3>Active Projects</h3>
+                <div className="stat-number">5</div>
+                <p className="stat-description">Projects in progress</p>
+              </div>
+            </div>
+
+            <div className="stat-card pending-tasks">
+              <div className="stat-icon">📝</div>
+              <div className="stat-info">
+                <h3>Pending Tasks</h3>
+                <div className="stat-number">12</div>
+                <p className="stat-description">Tasks awaiting completion</p>
+              </div>
+            </div>
+
+            <div className="stat-card team-members">
+              <div className="stat-icon">👥</div>
+              <div className="stat-info">
+                <h3>Team Members</h3>
+                <div className="stat-number">8</div>
+                <p className="stat-description">Active collaborators</p>
+              </div>
+            </div>
           </div>
-          <div className="stat-card">
-            <h3>Pending Tasks</h3>
-            <p className="stat-number">12</p>
-          </div>
-          <div className="stat-card">
-            <h3>Team Members</h3>
-            <p className="stat-number">8</p>
+        </div>
+
+        <div className="recent-activity">
+          <h2>Recent Activity</h2>
+          <div className="activity-list">
+            <div className="activity-item">
+              <div className="activity-icon">📌</div>
+              <div className="activity-content">
+                <p className="activity-text">New project "Data Collection" created</p>
+                <span className="activity-time">2 hours ago</span>
+              </div>
+            </div>
+            <div className="activity-item">
+              <div className="activity-icon">✅</div>
+              <div className="activity-content">
+                <p className="activity-text">Task "Update Documentation" completed</p>
+                <span className="activity-time">4 hours ago</span>
+              </div>
+            </div>
+            <div className="activity-item">
+              <div className="activity-icon">👥</div>
+              <div className="activity-content">
+                <p className="activity-text">New team member joined Development team</p>
+                <span className="activity-time">1 day ago</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
