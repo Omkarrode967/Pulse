@@ -66,10 +66,10 @@ function Navbar() {
           <span className="icon">{isDarkMode ? '☀️' : '🌙'}</span>
           {isDarkMode ? 'Light Mode' : 'Dark Mode'}
         </button>
-        <button className="nav-button">
+        <Link to="/settings" className="nav-button">
           <span className="icon">⚙️</span>
           Settings
-        </button>
+        </Link>
         <button className="nav-button">
           <span className="icon">✨</span>
           Features
@@ -77,6 +77,10 @@ function Navbar() {
         <Link to="/tasks" className="nav-button">
           <span className="icon">📋</span>
           Tasks
+        </Link>
+        <Link to="/task-management" className="nav-button">
+          <span className="icon">📝</span>
+          Task Management
         </Link>
         
         <div 
@@ -107,13 +111,14 @@ function Navbar() {
                     <span className="icon">👤</span>
                     Profile
                   </div>
-                  <div 
+                  <Link 
+                    to="/settings"
                     className="menu-item"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <span className="icon">⚙️</span>
                     Settings
-                  </div>
+                  </Link>
                   <div className="menu-divider"></div>
                   <div 
                     className="menu-item" 

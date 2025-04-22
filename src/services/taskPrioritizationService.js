@@ -332,6 +332,134 @@ class TaskPrioritizationService {
 
     return factors;
   }
+
+  // AI-based priority calculation
+  async calculateAIPriorityScore(task, context) {
+    const factors = {
+      deadline: this.calculateDeadlineScore(task.dueDate),
+      complexity: this.calculateComplexityScore(task.complexity),
+      dependencies: this.calculateDependencyScore(task.dependencies),
+      teamImpact: this.calculateTeamImpact(task, context.team),
+      personalImpact: this.calculatePersonalImpact(task, context.user),
+      skillMatch: this.calculateSkillMatchScore(task, context.user)
+    };
+
+    // AI-based weight adjustment based on context
+    const weights = this.getAIAdjustedWeights(context.viewType, factors);
+
+    // Calculate final score using AI-adjusted weights
+    const finalScore = Object.entries(factors).reduce(
+      (score, [factor, value]) => score + (value * weights[factor]),
+      0
+    );
+
+    return {
+      score: finalScore,
+      factors,
+      weights,
+      explanation: this.generateAIPriorityExplanation(factors, weights)
+    };
+  }
+
+  calculateTeamImpact(task, team) {
+    // Calculate how critical this task is for team goals
+    const teamGoals = team.goals || [];
+    const matchingGoals = teamGoals.filter(goal => 
+      task.tags?.some(tag => goal.keywords.includes(tag))
+    ).length;
+
+    return (matchingGoals / teamGoals.length) * 100;
+  }
+
+  calculatePersonalImpact(task, user) {
+    // Calculate how important this task is for user's personal goals
+    const userGoals = user.personalGoals || [];
+    const matchingGoals = userGoals.filter(goal => 
+      task.tags?.some(tag => goal.keywords.includes(tag))
+    ).length;
+
+    return (matchingGoals / userGoals.length) * 100;
+  }
+
+  getAIAdjustedWeights(viewType, factors) {
+    // Base weights
+    const baseWeights = {
+      deadline: 0.3,
+      complexity: 0.2,
+      dependencies: 0.15,
+      teamImpact: 0.2,
+      personalImpact: 0.1,
+      skillMatch: 0.05
+    };
+
+    // Adjust weights based on view type and factors
+    if (viewType === 'personal') {
+      return {
+        ...baseWeights,
+        personalImpact: 0.3,
+        teamImpact: 0.1
+      };
+    } else if (viewType === 'team') {
+      return {
+        ...baseWeights,
+        teamImpact: 0.3,
+        personalImpact: 0.1
+      };
+    }
+
+    return baseWeights;
+  }
+
+  generateAIPriorityExplanation(factors, weights) {
+    const explanations = [];
+
+    // Add explanations based on significant factors
+    if (factors.deadline * weights.deadline > 20) {
+      explanations.push(`Deadline impact: ${Math.round(factors.deadline)}%`);
+    }
+    if (factors.teamImpact * weights.teamImpact > 15) {
+      explanations.push(`Team goal alignment: ${Math.round(factors.teamImpact)}%`);
+    }
+    if (factors.personalImpact * weights.personalImpact > 15) {
+      explanations.push(`Personal goal alignment: ${Math.round(factors.personalImpact)}%`);
+    }
+    if (factors.skillMatch * weights.skillMatch < 50) {
+      explanations.push('Skills mismatch detected');
+    }
+
+    return explanations;
+  }
+
+  async prioritizeTasks(tasks, context) {
+    const prioritizedTasks = await Promise.all(
+      tasks.map(async task => {
+        const aiPriority = await this.calculateAIPriorityScore(task, context);
+        
+        // Determine priority level based on AI score
+        let priorityLevel;
+        if (aiPriority.score >= 90) {
+          priorityLevel = { ...PRIORITY_LEVELS.CRITICAL, score: aiPriority.score };
+        } else if (aiPriority.score >= 75) {
+          priorityLevel = { ...PRIORITY_LEVELS.HIGH, score: aiPriority.score };
+        } else if (aiPriority.score >= 50) {
+          priorityLevel = { ...PRIORITY_LEVELS.MEDIUM, score: aiPriority.score };
+        } else {
+          priorityLevel = { ...PRIORITY_LEVELS.LOW, score: aiPriority.score };
+        }
+
+        return {
+          ...task,
+          priority: priorityLevel,
+          priorityDetails: aiPriority.explanation,
+          aiFactors: aiPriority.factors,
+          aiWeights: aiPriority.weights
+        };
+      })
+    );
+
+    // Sort tasks by AI-calculated priority score
+    return prioritizedTasks.sort((a, b) => b.priority.score - a.priority.score);
+  }
 }
 
 export default new TaskPrioritizationService(); 

@@ -18,6 +18,8 @@ import Navbar from './components/Navbar';
 import Profile from './components/Profile';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Dashboard from './components/Dashboard';
+import TaskManagement from './components/TaskManagement';
+import Settings from './components/Settings';
 
 // Protected Route component
 function ProtectedRoute({ children }) {
@@ -121,6 +123,16 @@ function App() {
               <Route path="/profile" element={
                 <ProtectedRoute>
                   <Profile />
+                </ProtectedRoute>
+              } />
+              <Route path="/task-management" element={
+                <ProtectedRoute>
+                  <TaskManagement />
+                </ProtectedRoute>
+              } />
+              <Route path="/settings" element={
+                <ProtectedRoute>
+                  <Settings />
                 </ProtectedRoute>
               } />
             </Routes>

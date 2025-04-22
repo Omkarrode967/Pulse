@@ -50,6 +50,13 @@ function Sidebar({ onToggle }) {
           {!isCollapsed && <span>Tasks</span>}
         </div>
         <div 
+          className={`menu-item ${isActive('/task-management') ? 'active' : ''}`}
+          onClick={() => handleNavigation('/task-management')}
+        >
+          <span className="icon">📝</span>
+          {!isCollapsed && <span>Task Management</span>}
+        </div>
+        <div 
           className={`menu-item ${isActive('/teams') ? 'active' : ''}`}
           onClick={() => handleNavigation('/teams')}
         >

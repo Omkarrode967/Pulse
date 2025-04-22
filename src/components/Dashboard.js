@@ -83,33 +83,6 @@ function Dashboard() {
             </div>
           </div>
         </div>
-
-        <div className="recent-activity">
-          <h2>Recent Activity</h2>
-          <div className="activity-list">
-            <div className="activity-item">
-              <div className="activity-icon">📌</div>
-              <div className="activity-content">
-                <p className="activity-text">New project "Data Collection" created</p>
-                <span className="activity-time">2 hours ago</span>
-              </div>
-            </div>
-            <div className="activity-item">
-              <div className="activity-icon">✅</div>
-              <div className="activity-content">
-                <p className="activity-text">Task "Update Documentation" completed</p>
-                <span className="activity-time">4 hours ago</span>
-              </div>
-            </div>
-            <div className="activity-item">
-              <div className="activity-icon">👥</div>
-              <div className="activity-content">
-                <p className="activity-text">New team member joined Development team</p>
-                <span className="activity-time">1 day ago</span>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );

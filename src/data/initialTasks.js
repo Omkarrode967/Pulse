@@ -10,7 +10,9 @@ const initialTasks = [
     estimatedHours: 20,
     requiredSkills: ['data-collection', 'project-management'],
     dependencies: [],
-    status: 'in-progress'
+    status: 'in-progress',
+    tags: ['data-collection', 'project-management', 'team-coordination'],
+    teamId: 'viit-chatbot-team'
   },
   {
     id: 2,
@@ -23,7 +25,9 @@ const initialTasks = [
     estimatedHours: 25,
     requiredSkills: ['data-cleaning', 'python'],
     dependencies: [{ id: 1, completed: false }],
-    status: 'pending'
+    status: 'pending',
+    tags: ['data-cleaning', 'data-quality', 'data-preprocessing'],
+    teamId: 'viit-chatbot-team'
   },
   {
     id: 3,
@@ -36,7 +40,9 @@ const initialTasks = [
     estimatedHours: 30,
     requiredSkills: ['feature-engineering', 'ml'],
     dependencies: [{ id: 2, completed: false }],
-    status: 'pending'
+    status: 'pending',
+    tags: ['feature-engineering', 'ml'],
+    teamId: 'viit-chatbot-team'
   },
   {
     id: 4,
@@ -49,7 +55,9 @@ const initialTasks = [
     estimatedHours: 40,
     requiredSkills: ['ml', 'model-training'],
     dependencies: [{ id: 3, completed: false }],
-    status: 'pending'
+    status: 'pending',
+    tags: ['ml', 'model-training', 'deep-learning'],
+    teamId: 'viit-chatbot-team'
   },
   {
     id: 5,
@@ -62,7 +70,9 @@ const initialTasks = [
     estimatedHours: 25,
     requiredSkills: ['model-evaluation', 'testing'],
     dependencies: [{ id: 4, completed: false }],
-    status: 'pending'
+    status: 'pending',
+    tags: ['model-evaluation', 'testing', 'performance-optimization'],
+    teamId: 'viit-chatbot-team'
   }
 ];
 
