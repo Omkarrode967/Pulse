@@ -1,70 +1,96 @@
-# Getting Started with Create React App
+# Pulse: Team Collaboration & Project Management Platform
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Pulse is a web-based collaboration platform designed to enhance team productivity and streamline project management. Built with a robust Spring Boot backend and a modern React frontend, Pulse empowers teams to manage projects, tasks, and teams efficiently, with real-time updates and AI-driven prioritization.
 
-## Available Scripts
+## Features
+- **AI-Driven Task Prioritization**: Dynamically reorder tasks based on deadlines, workload, and urgency using integrated AI.
+- **Real-Time Collaboration**: WebSocket-powered instant updates for tasks and document changes.
+- **Project & Team Management**: Create, update, and track projects, teams, and members.
+- **Email Notifications**: Automated email alerts for team assignments and project updates (via EmailJS).
+- **Secure Authentication**: OAuth 2.0 and JWT-based authentication for secure access.
+- **Scalable Backend**: High-performance Spring Boot backend supporting 1000+ concurrent users.
 
-In the project directory, you can run:
+## Tech Stack
+- **Frontend**: React, Material-UI, Axios, EmailJS
+- **Backend**: Spring Boot, Java 17, Spring Data JPA, WebSockets
+- **Database**: PostgreSQL
+- **Authentication**: OAuth 2.0, JWT
+- **AI**: Custom AI logic for task prioritization
+- **Deployment**: Docker, Render
 
-### `npm start`
+## Project Structure
+```
+Pulse/
+├── pul-backend/      # Spring Boot backend (Java)
+├── src/              # React frontend (JS)
+├── pul-frontend/     # (Additional frontend resources)
+├── public/           # Static assets
+├── EMAIL_SETUP_GUIDE.md
+├── render.yaml       # Render deployment config
+└── README.md
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Getting Started
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Prerequisites
+- Node.js (v14+)
+- Java 17
+- Maven
+- PostgreSQL
 
-### `npm test`
+### 1. Backend Setup (Spring Boot)
+```bash
+cd pul-backend
+# Configure PostgreSQL in src/main/resources/application.properties
+# Build and run
+./mvnw spring-boot:run
+```
+- The backend runs on `http://localhost:8080` by default.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### Docker (Optional)
+```bash
+docker build -t pulse-backend .
+docker run -p 8080:8080 pulse-backend
+```
 
-### `npm run build`
+### 2. Frontend Setup (React)
+```bash
+cd src
+npm install
+npm start
+```
+- The frontend runs on `http://localhost:3000` by default.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 3. Email Setup (EmailJS)
+See [EMAIL_SETUP_GUIDE.md](./EMAIL_SETUP_GUIDE.md) for detailed steps.
+- Sign up at [EmailJS](https://www.emailjs.com/)
+- Create a service and template
+- Update `src/config/emailConfig.js` with your EmailJS credentials
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## API Endpoints (Backend)
+- `GET /api/projects` — List all projects
+- `GET /api/projects/{id}` — Get project by ID
+- `POST /api/projects` — Create a new project
+- `PUT /api/projects/{id}` — Update a project
+- `PUT /api/projects/{id}/status` — Update project status
+- `DELETE /api/projects/{id}` — Delete a project
+- `GET /` or `GET /health` — Health check
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Deployment
 
-### `npm run eject`
+### Render
+- The project includes a `render.yaml` for Render.com deployment.
+- Backend build/start commands are set for Java 17.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Docker
+- See `pul-backend/Dockerfile` for backend containerization.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Contributing
+Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## License
+[MIT](LICENSE) (add a LICENSE file if you wish to specify one)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Pulse** — Empowering teams to collaborate, prioritize, and deliver.
